@@ -26,9 +26,9 @@ USE employeeTrack_db;
 
 INSERT INTO departments (name) VALUES ('Sales'), ('Engineering'),("Software Architect");
 
-INSERT INTO roles (title, salary, departments_id) VALUES (programmer, 120000, 2);
-INSERT INTO roles (title, salary, departments_id) VALUES (telecom, 12000, 1);
-INSERT INTO roles (title, salary, departments_id) VALUES (programming-architect, 100000, 3);
+INSERT INTO roles (title, salary, departments_id) VALUES ("programmer", 120000, 2);
+INSERT INTO roles (title, salary, departments_id) VALUES ("telecom", 12000, 1);
+INSERT INTO roles (title, salary, departments_id) VALUES ("programming-architect", 100000, 3);
 
 INSERT INTO employee (first_name, last_name, roles_id, manager_id ) VALUES ("Kenan","Ozbelli" ,1 , null);
 
