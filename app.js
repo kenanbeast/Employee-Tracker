@@ -79,7 +79,7 @@ function addDep() {
         connection.query(
             "INSERT INTO departments SET ?",
             {
-                name: name.newDep
+                department_name: name.newDep
             },
             function (err, res) {
                 if (err) throw err;
@@ -132,13 +132,13 @@ const addrol = async () => {
     )
 }
 const addemploy = async () => {
-    connection.query("SELECT  FROM roles",
+    connection.query("SELECT * FROM roles",
         async (err, results) => {
             if (err) throw err
             const rolChoice = await results.map(({ id, title }) => ({ name: title, value: id }))
             connection.query("SELECT * FROM employee", (err, res) => {
                 const PossibleManager = res.map(({ id, first_name, last_name }) => ({ name: `${last_name}  ${first_name}`, value: id }))
-                PossibleManager.push({name: "none", value:"null"})
+                PossibleManager.push({ name: "none", value: "null" })
                 inquirer.prompt([
                     {
                         type: "input",
@@ -158,14 +158,27 @@ const addemploy = async () => {
                     },
                     {
                         type: "list",
-                        message: "Who is this employees",
+                        message: "Who is this employees Manager or is this employee a Manager",
                         choices: PossibleManager,
                         name: "employeeManager"
                     }
-                ]).then(answers => console.log(answers)
-
-
-                )
+                ]).then(async (name) => {
+                    console.log("inserting a new employee....\n")
+                    connection.query(
+                        "INSERT INTO employee SET ?",
+                        {
+                            first_name: name.employFirst,
+                            last_name: name.employLast,
+                            roles_id: name.roleChoice,
+                            manager_id: name.employeeManager
+                        },
+                        function (err, res) {
+                            if (err) throw err;
+                            console.log(res.affectedRows + " role created\n");
+                            init();
+                        }
+                    )
+                })
             })
         })
 }
@@ -202,10 +215,10 @@ function updateEmpRole() {
     connection.query("SELECT * FROM employee",
         async (err, results) => {
             if (err) throw err
-            const employee = await results.map( ({ id, first_name, last_name }) => ({ name:`${last_name} ${first_name}`, value: id }))
+            const employee = await results.map(({ id, first_name, last_name }) => ({ name: `${last_name} ${first_name}`, value: id }))
             connection.query("SELECT * FROM roles",
                 async (err, res) => {
-                    const newRole = res.map(({id, title})=>({name: title, value: id}))
+                    const newRole = res.map(({ id, title }) => ({ name: title, value: id }))
                     inquirer.prompt([
 
                         {
