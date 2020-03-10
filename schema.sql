@@ -24,7 +24,7 @@ CREATE TABLE employee(
 
 USE employeeTrack_db;
 
-INSERT INTO departments (name) VALUES ('Sales'), ('Engineering'),("Software Architect");
+INSERT INTO departments (department_name) VALUES ('Sales'), ('Engineering'),("Software Architect");
 
 INSERT INTO roles (title, salary, departments_id) VALUES ("programmer", 120000, 2);
 INSERT INTO roles (title, salary, departments_id) VALUES ("telecom", 12000, 1);
